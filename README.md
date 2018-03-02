@@ -10,7 +10,7 @@ platform. Most people won't need to use this.
   * Clone this repo into the folder ("git clone git@github.com:/hmrc/ocelot-internal-viewer C:\Ocelot")
   * Run "PowerShell" as Administrator. This will open a prompt. In that prompt
       * cd C:\Ocelot\bin
-      * .\[setup-iis.ps1](bin\setup-iis.ps1)
+      * .\[setup-iis.ps1](./bin/setup-iis.ps1)
 
 This will download, install, and setup IIS. Once it's done, the script will
 open a browser with a link to the new site.
