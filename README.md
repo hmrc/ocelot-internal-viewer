@@ -1,9 +1,19 @@
 
 # ocelot-internal-viewer
 
- [ ![Download](https://api.bintray.com/packages/hmrc/releases/ocelot-internal-viewer/images/download.svg) ](https://bintray.com/hmrc/releases/ocelot-internal-viewer/_latestVersion)
+This is the development version of the viewer for the internal guidance
+platform. Most people won't need to use this.
 
-This is a placeholder README.md for a new repository
+## Instructions
+
+  * Create a folder to work out of (I'm going to assume "C:\Ocelot")
+  * Clone this repo into the folder ("git clone git@github.com:/hmrc/ocelot-internal-viewer C:\Ocelot")
+  * Run "PowerShell" as Administrator. This will open a prompt. In that prompt
+      * cd C:\Ocelot\bin
+      * .\[setup-iis.ps1](bin\setup-iis.ps1)
+
+This will download, install, and setup IIS. Once it's done, the script will
+open a browser with a link to the new site.
 
 ### License
 
