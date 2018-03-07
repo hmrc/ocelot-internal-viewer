@@ -24,7 +24,7 @@ $(function(){
             html += '<div class="form-group">';
                 html += '<fieldset>';
                     html += '<legend>';
-                        html += '<h1 class="heading-xlarge">' + drawQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+                        html += '<h1 class="heading-xlarge">' + adQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
                     html += '</legend>';
                     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++){
                         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
