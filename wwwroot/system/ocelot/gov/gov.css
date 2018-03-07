@@ -1,0 +1,46 @@
+@media (min-width: 641px) {
+    .meta-data {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.meta-data {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.1428571429;
+    color: #6f777b;
+}
+
+@media (min-width: 641px) {
+    .meta-data p {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.meta-data p {
+    text-align: left;
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.1428571429;
+}
+
+@media (min-width: 641px) {
+    p {
+        font-size: 19px;
+        line-height: 1.3157894737;
+    }
+}
+
+p {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 1.25;
+}
