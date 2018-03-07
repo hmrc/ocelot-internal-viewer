@@ -24,11 +24,7 @@ $(function(){
             html += '<div class="form-group">';
                 html += '<fieldset>';
                     html += '<legend>';
-<<<<<<< HEAD
                         html += '<h1 class="heading-xlarge">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
-=======
-                        html += '<h1 class="heading-xlarge">' + adQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
->>>>>>> 91ad169733e3596f0697ebce51871659d526f901
                     html += '</legend>';
                     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++){
                         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
