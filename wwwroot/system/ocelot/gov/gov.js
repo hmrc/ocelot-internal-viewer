@@ -104,3 +104,8 @@ $(function(){
         }
     });    
 });
+
+function myConflict()
+{
+    
+}
