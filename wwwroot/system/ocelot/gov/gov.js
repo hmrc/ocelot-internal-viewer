@@ -110,8 +110,3 @@ $(function(){
         }
     });    
 });
-
-function myConflict()
-{
-    
-}
