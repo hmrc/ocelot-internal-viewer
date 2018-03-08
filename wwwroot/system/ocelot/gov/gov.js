@@ -43,6 +43,14 @@ $(function () {
         return html;
     }
 
+    function drawNoteStanza(stanza) {
+        var html = '';
+        html += '<div class="panel panel-border-wide">';
+            html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text] + '</p>';
+        html += '</div>';
+        return html;
+    }
+
     function drawImportantStanza(stanza) {
         var html = '';
         html += '<div class="notice">';
@@ -79,6 +87,9 @@ $(function () {
                 break;
             case 'QuestionStanza':
                 html += drawQuestionStanza(stanza);
+                break;
+            case 'NoteStanza':
+                html += drawNoteStanza(stanza);
                 break;
             case 'ImportantStanza':
                 html += drawImportantStanza(stanza);
