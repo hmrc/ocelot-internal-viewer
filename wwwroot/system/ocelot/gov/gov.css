@@ -46,15 +46,13 @@ p {
 }
 
 @media (min-width: 641px) {
-    p,
-    .body-text {
+    p {
         margin-top: 0.26316em;
         margin-bottom: 1.05263em;
     }
 }
 
-p,
-.body-text {
+p {
     margin-top: 0.3125em;
     margin-bottom: 1.25em;
 }
