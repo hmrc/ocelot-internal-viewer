@@ -7,8 +7,8 @@ $(function () {
                 console.log(process);
                 GLOBAL_process = process;
                 $('#proposition-name').text(GLOBAL_process.meta.title);
-                $('.modified-date').text('Last updated: ' + GLOBAL_process.meta.lastUpdate);
-                $('#content').html(drawStanza('start'));
+                $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
+                $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
                 console.warn('unable to get json');
             });
@@ -18,7 +18,27 @@ $(function () {
     } else {
         console.warn('no GLOBAL_process id specified');
     }
-
+    function convertEpoch(date){
+        var d = new Date(date);
+        return d.getDate() + ' ' + getWordedMonth(d.getMonth()) + ' ' + d.getFullYear();
+    }
+    function getWordedMonth(m){
+        var arrMonths = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+        return arrMonths(m);
+    }
     function drawQuestionStanza(stanza) {
         var html = '';
         html += '<form>';
@@ -124,12 +144,12 @@ $(function () {
         }
         return text;
     }
-    $('#content').on('click', '.button', function () {
+    $('#stanzas').on('click', '.button', function () {
         var nextStanza = $('[name="radio-group"]:checked').val();
         if (nextStanza === undefined) {
             alert('Please select an option');
         } else {
-            $('#content').html(drawStanza(nextStanza));
+            $('#stanzas').html(drawStanza(nextStanza));
         }
     });
 
