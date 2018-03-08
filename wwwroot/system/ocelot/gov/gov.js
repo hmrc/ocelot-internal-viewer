@@ -68,7 +68,7 @@ $(function () {
         var html = '';
         html += '<div class="multiple-choice">';
         html += '<input type="radio" id="radio_' + value + '" name="radio-group" value="' + value + '">';
-        html += '<label for="radio_' + value + '">' + text + '</label>';
+        html += '<label for="radio_' + value + '">' + lowerCaseStart(text) + '</label>';
         html += '</div>';
         return html;
     }
@@ -103,7 +103,11 @@ $(function () {
         }
         return html;
     }
-
+    function lowerCaseStart(text){
+        if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no'){
+            return text.substring(0, 2).toLowerCase() + text.substring(2);
+        }
+    }
     function checkNext(stanza) {
         var html = '';
         if (GLOBAL_process.flow[stanza].next[0] !== 'end') {
