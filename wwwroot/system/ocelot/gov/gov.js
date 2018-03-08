@@ -8,7 +8,7 @@ $(function () {
                 GLOBAL_process = process;
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
-                $('#stanzas').html(drawStanza('start'));
+                $('#content').html(drawStanza('start'));
             }).fail(function () {
                 console.warn('unable to get json');
             });
@@ -144,12 +144,13 @@ $(function () {
         }
         return text;
     }
-    $('#stanzas').on('click', '.button', function () {
+    $('#content').on('click', '.button', function () {
         var nextStanza = $('[name="radio-group"]:checked').val();
         if (nextStanza === undefined) {
             alert('Please select an option');
         } else {
-            $('#stanzas').html(drawStanza(nextStanza));
+            $('#content').html(drawStanza(nextStanza));
+            $('.rightbar, .reset').show();
         }
     });
 
