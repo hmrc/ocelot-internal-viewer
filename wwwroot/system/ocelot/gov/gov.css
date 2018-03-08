@@ -4276,3 +4276,185 @@ mark {
     margin: 0;
     padding: 0;
 }
+
+@media (min-width: 769px) {
+    .related-container {
+        float: left;
+        width: 33.3333333333%;
+    }
+}
+
+.related-container {
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+
+.govuk-related-items {
+    border-top: 10px solid #005ea5;
+    padding-top: 5px;
+}
+
+@media (min-width: 641px) {
+    .govuk-related-items h2 {
+        font-size: 24px;
+        line-height: 1.25;
+    }
+}
+
+.govuk-related-items h2 {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+@media (min-width: 641px) {
+    h2 {
+        font-size: 24px;
+        line-height: 1.25;
+    }
+}
+
+h2 {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+h2,
+h3,
+h4 {
+    font-weight: 400;
+}
+
+@media (min-width: 641px) {
+    .govuk-related-items ul {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}
+
+.govuk-related-items ul {
+    padding: 0;
+    margin: 0;
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.1428571429;
+    list-style: none;
+    margin-bottom: 1.25em;
+}
+
+.govuk-related-items ul li {
+    padding: 0;
+    margin-bottom: 0.75em;
+}
+
+.govuk-related-items ul li.related-items-more {
+    font-weight: bold;
+}
+
+@media (min-width: 769px) .grid-row main#content {
+    float: left;
+    width: 66.6666666667%;
+}
+
+.grid-row main#content {
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1020px) {
+    #user-satisfaction-survey .survey-wrapper,
+    .govuk-emergency-banner div,
+    .report-a-problem-container,
+    .report-a-problem-toggle-wrapper,
+    .homepage #wrapper .report-a-problem-container,
+    .homepage #wrapper .report-a-problem-toggle-wrapper,
+    #wrapper {
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 641px) {
+    #user-satisfaction-survey .survey-wrapper,
+    .govuk-emergency-banner div,
+    .report-a-problem-container,
+    .report-a-problem-toggle-wrapper,
+    .homepage #wrapper .report-a-problem-container,
+    .homepage #wrapper .report-a-problem-toggle-wrapper,
+    #wrapper {
+        margin: 0 30px;
+    }
+}
+
+#user-satisfaction-survey .survey-wrapper,
+.govuk-emergency-banner div,
+.report-a-problem-container,
+.report-a-problem-toggle-wrapper,
+.homepage #wrapper .report-a-problem-container,
+.homepage #wrapper .report-a-problem-toggle-wrapper,
+#wrapper {
+    max-width: 960px;
+    margin: 0 15px;
+}
+
+@media (min-width: 1020px) {
+    #user-satisfaction-survey .survey-wrapper,
+    .govuk-emergency-banner div,
+    .report-a-problem-container,
+    .report-a-problem-toggle-wrapper,
+    .homepage #wrapper .report-a-problem-container,
+    .homepage #wrapper .report-a-problem-toggle-wrapper,
+    #wrapper {
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 641px) {
+    #user-satisfaction-survey .survey-wrapper,
+    .govuk-emergency-banner div,
+    .report-a-problem-container,
+    .report-a-problem-toggle-wrapper,
+    .homepage #wrapper .report-a-problem-container,
+    .homepage #wrapper .report-a-problem-toggle-wrapper,
+    #wrapper {
+        margin: 0 30px;
+    }
+}
+
+#user-satisfaction-survey .survey-wrapper,
+.govuk-emergency-banner div,
+.report-a-problem-container,
+.report-a-problem-toggle-wrapper,
+.homepage #wrapper .report-a-problem-container,
+.homepage #wrapper .report-a-problem-toggle-wrapper,
+#wrapper {
+    max-width: 960px;
+    margin: 0 15px;
+}
+
+#footer .footer-categories,
+.govuk-document-footer,
+.grid-row {
+    margin: 0 -15px;
+}
+
+#footer .footer-categories,
+.govuk-document-footer,
+.grid-row {
+    margin: 0 -15px;
+}

@@ -1,0 +1,175 @@
+.gem-c-step-nav:not(.gem-c-step-nav--large),
+.gem-c-step-nav__controls,
+.gem-c-step-nav__toggle-link,
+.gem-c-step-nav__help {
+    display: none
+}
+
+.gem-c-step-nav {
+    position: relative
+}
+
+.gem-c-step-nav:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 17.5px;
+    width: 3px;
+    height: 100%;
+    margin-left: -1.5px;
+    border-left: solid 3px #bfc1c3
+}
+
+.gem-c-step-nav:after {
+    content: "";
+    position: absolute;
+    z-index: 6;
+    bottom: 0;
+    left: 0;
+    margin-left: 8.75px;
+    width: 17.5px;
+    height: 0;
+    border-bottom: solid 3px #bfc1c3
+}
+
+.gem-c-step-nav__step {
+    position: relative
+}
+
+.gem-c-step-nav__steps {
+    padding: 0;
+    list-style: none
+}
+
+.gem-c-step-nav__circle {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: bold;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 23px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    background: #ffffff;
+    border-radius: 100px;
+    text-align: center
+}
+
+@media (min-width: 641px) {
+    .gem-c-step-nav__circle {
+        font-size: 19px;
+        line-height: 30px
+    }
+}
+
+.gem-c-step-nav__circle--number {
+    border: solid 3px #bfc1c3
+}
+
+.gem-c-step-nav__step,
+.gem-c-step-nav__paragraph,
+.gem-c-step-nav__links {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.14286;
+    padding-bottom: 1em
+}
+
+@media (min-width: 641px) {
+    .gem-c-step-nav__step,
+    .gem-c-step-nav__paragraph,
+    .gem-c-step-nav__links {
+        font-size: 16px;
+        line-height: 1.25
+    }
+}
+
+.gem-c-step-nav__step {
+    position: relative;
+    padding-left: 60px
+}
+
+.gem-c-step-nav__title {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 1.25;
+    margin: 0 0 0.5em 0;
+    padding: 0
+}
+
+@media (min-width: 641px) {
+    .gem-c-step-nav__title {
+        font-size: 19px;
+        line-height: 1.31579
+    }
+}
+
+.gem-c-step-nav__button--title {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0;
+    border: 0;
+    background: none
+}
+
+@media (min-width: 641px) {
+    .gem-c-step-nav__button--title {
+        font-size: 19px;
+        line-height: 1.31579
+    }
+}
+
+.gem-c-step-nav__context:before {
+    content: " \2013  "
+}
+
+.gem-c-step-nav__panel-link--active {
+    font-weight: bold
+}
+
+.gem-c-step-nav__links {
+    padding-left: 0;
+    list-style: none
+}
+
+.gem-c-step-nav__links--choice {
+    padding-left: 30px;
+    list-style: disc
+}
+
+.gem-c-step-nav__link {
+    margin-bottom: 0.3em
+}
+
+.gem-c-step-nav-header__part-of {
+    display: block
+}
+
+.gem-c-step-nav-header__title {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    font-size: 18px;
+    line-height: 1.2
+}
+
+@media (min-width: 641px) {
+    .gem-c-step-nav-header__title {
+        font-size: 24px;
+        line-height: 1.25
+    }
+}
+
+.gem-c-step-nav-header__skip-link {
+    display: none
+}
