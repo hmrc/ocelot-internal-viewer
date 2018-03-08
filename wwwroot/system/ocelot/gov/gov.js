@@ -129,7 +129,7 @@ $(function () {
         if (nextStanza === undefined) {
             alert('Please select an option');
         } else {
-            $('.reset').show();
+            $('.rightbar, .reset').show();
             $('#content').html(drawStanza(nextStanza));
         }
     });
