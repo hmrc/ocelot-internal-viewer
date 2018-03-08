@@ -2,7 +2,7 @@ $(function () {
     var GLOBAL_process;
     var param = getParam();
     if (param.p) {
-        if (param.p.match(RE.ocelot)) {
+        if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
             $.getJSON('/oct/ocelot/process/' + param.p + '.js', function (process) {
                 console.log(process);
                 GLOBAL_process = process;
@@ -46,7 +46,7 @@ $(function () {
     function drawNoteStanza(stanza) {
         var html = '';
         html += '<div class="panel panel-border-wide">';
-            html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text] + '</p>';
+        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text] + '</p>';
         html += '</div>';
         return html;
     }
@@ -128,4 +128,34 @@ $(function () {
             $('#content').html(drawStanza(nextStanza));
         }
     });
+
+    function getParam(raw) {
+        raw = raw || window.location.search;
+        var parts, tmp, key, value, i, param = {};
+
+        if (raw === undefined || raw === "")
+            return param;
+
+        raw = raw.substring(1); // remove leading '?';
+
+        parts = raw.split("&");
+
+        for (i = 0; i < parts.length; i += 1) {
+            tmp = parts[i].split("=");
+            key = decodeURIComponent(tmp[0]);
+            value = decodeURIComponent(tmp[1]);
+
+            if (key in param) {
+                if (typeof param[key] === "string") {
+                    param[key] = [param[key], value];
+                } else {
+                    param[key].push(value);
+                }
+            } else {
+                param[key] = value;
+            }
+        }
+
+        return param;
+    }
 });
