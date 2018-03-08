@@ -37,7 +37,7 @@ $(function () {
             'November',
             'December'
         ];
-        return arrMonths(m);
+        return arrMonths[m];
     }
     function drawQuestionStanza(stanza) {
         var html = '';
