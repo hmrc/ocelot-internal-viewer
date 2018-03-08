@@ -1,5 +1,6 @@
 $(function () {
     var GLOBAL_process;
+    var GLOBAL_errorShown = false;;
     var param = getParam();
     if (param.p) {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
@@ -7,6 +8,7 @@ $(function () {
                 console.log(process);
                 GLOBAL_process = process;
                 $('#proposition-name').text(GLOBAL_process.meta.title);
+                document.title = GLOBAL_process.meta.title + ' - GOV.UK';
                 $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
                 $('#content').html(drawStanza('start'));
             }).fail(function () {
@@ -18,11 +20,13 @@ $(function () {
     } else {
         console.warn('no GLOBAL_process id specified');
     }
-    function convertEpoch(date){
+
+    function convertEpoch(date) {
         var d = new Date(date);
         return d.getDate() + ' ' + getWordedMonth(d.getMonth()) + ' ' + d.getFullYear();
     }
-    function getWordedMonth(m){
+
+    function getWordedMonth(m) {
         var arrMonths = [
             'January',
             'February',
@@ -39,16 +43,19 @@ $(function () {
         ];
         return arrMonths[m];
     }
+
     function drawQuestionStanza(stanza) {
         var html = '';
         html += '<form>';
         html += '<div class="form-group">';
         html += '<fieldset>';
         html += '<legend>';
-        html += '<h1 class="heading-medium">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+        html += '<h1 class="heading-large" id="questionText">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+        //html += '<span class="form-label-bold">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</span>';
+        html += '<span style="display: none;" class="error-message">Please select an option</span>';
         html += '</legend>';
         for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
-            html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
+            html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i], i);
         }
         html += '</fieldset>';
         html += '</div>';
@@ -84,11 +91,11 @@ $(function () {
         return html;
     }
 
-    function drawMultipleChoice(text, value) {
+    function drawMultipleChoice(text, value, index) {
         var html = '';
         html += '<div class="multiple-choice">';
-        html += '<input type="radio" id="radio_' + value + '" name="radio-group" value="' + value + '">';
-        html += '<label for="radio_' + value + '">' + lowerCaseStart(text) + '</label>';
+        html += '<input type="radio" id="radio_' + index + '" name="radio-group" value="' + value + '">';
+        html += '<label for="radio_' + index + '">' + lowerCaseStart(text) + '</label>';
         html += '</div>';
         return html;
     }
@@ -123,11 +130,13 @@ $(function () {
         }
         return html;
     }
-    function lowerCaseStart(text){
-        if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no'){
+
+    function lowerCaseStart(text) {
+        if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
             return text.substring(0, 2).toLowerCase() + text.substring(2);
         }
     }
+
     function checkNext(stanza) {
         var html = '';
         if (GLOBAL_process.flow[stanza].next[0] !== 'end') {
@@ -147,12 +156,42 @@ $(function () {
     $('#content').on('click', '.button', function () {
         var nextStanza = $('[name="radio-group"]:checked').val();
         if (nextStanza === undefined) {
-            alert('Please select an option');
+            //alert('Please select an option');
+            questionStanzaError();
         } else {
             $('#content').html(drawStanza(nextStanza));
             $('.rightbar, .reset').show();
+            GLOBAL_errorShown = false;
         }
     });
+
+    function questionStanzaError() {
+        if (!GLOBAL_errorShown) {
+            var html = '';
+            html += '<div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">';
+            html += '<h2 class="heading-medium error-summary-heading" id="error-summary-heading">';
+            html += 'There\'s a problem';
+            html += '</h2>';
+            html += '<p>';
+            html += 'Please answer the question:';
+            html += '</p>';
+            html += '<ul class="error-summary-list">';
+            html += '<li><a href="#radio_0">' + $('#questionText').text() + '</a></li>';
+            html += '</ul>';
+            html += '</div>';
+            $('#content').prepend(html);
+            $('.error-summary').focus();
+            document.title = 'Error: ' + document.title;
+            var objCSS = {
+                'margin-top': '0',
+                'margin-bottom': '0'
+            };
+            $('.heading-large').css(objCSS);
+            $('.form-group').addClass('form-group-error');
+            $('.error-message').show();
+            GLOBAL_errorShown = true;
+        }
+    }
 
     function getParam(raw) {
         raw = raw || window.location.search;
