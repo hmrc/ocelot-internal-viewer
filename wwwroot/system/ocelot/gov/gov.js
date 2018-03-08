@@ -10,7 +10,8 @@ $(function () {
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 document.title = GLOBAL_process.meta.title + ' - GOV.UK';
                 $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
-                $('#content').html(drawStanza('start'));
+                console.log(drawStanza('start'));
+                $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
                 console.warn('unable to get json');
             });
@@ -44,13 +45,23 @@ $(function () {
         return arrMonths[m];
     }
 
+    function titleError(bln) {
+        if (bln) {
+            document.title = 'Error: ' + document.title;
+            GLOBAL_errorShown = true;
+        } else {
+            document.title.replace('Error: ', '');
+            GLOBAL_errorShown = false;
+        }
+    }
+
     function drawQuestionStanza(stanza) {
         var html = '';
         html += '<form>';
         html += '<div class="form-group">';
         html += '<fieldset>';
         html += '<legend>';
-        html += '<h1 class="heading-large" id="questionText">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+        html += '<h1 class="heading-large" id="questionText">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</h1>';
         //html += '<span class="form-label-bold">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</span>';
         html += '<span style="display: none;" class="error-message">Please select an option</span>';
         html += '</legend>';
@@ -153,15 +164,15 @@ $(function () {
         }
         return text;
     }
-    $('#content').on('click', '.button', function () {
+    $('#stanzas').on('click', '.button', function () {
         var nextStanza = $('[name="radio-group"]:checked').val();
         if (nextStanza === undefined) {
             //alert('Please select an option');
             questionStanzaError();
         } else {
-            $('#content').html(drawStanza(nextStanza));
+            $('#stanzas').html(drawStanza(nextStanza));
             $('.rightbar, .reset').show();
-            GLOBAL_errorShown = false;
+            titleError(false);
         }
     });
 
@@ -179,9 +190,9 @@ $(function () {
             html += '<li><a href="#radio_0">' + $('#questionText').text() + '</a></li>';
             html += '</ul>';
             html += '</div>';
-            $('#content').prepend(html);
+            $('#stanzas').prepend(html);
             $('.error-summary').focus();
-            document.title = 'Error: ' + document.title;
+            titleError(true);
             var objCSS = {
                 'margin-top': '0',
                 'margin-bottom': '0'
@@ -189,7 +200,7 @@ $(function () {
             $('.heading-large').css(objCSS);
             $('.form-group').addClass('form-group-error');
             $('.error-message').show();
-            GLOBAL_errorShown = true;
+
         }
     }
 
