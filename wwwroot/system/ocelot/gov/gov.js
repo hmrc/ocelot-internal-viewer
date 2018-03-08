@@ -115,7 +115,7 @@ $(function () {
     }
 
     function addQuestionMark(text) {
-        if (text.substring(text.length - 1) !== '?') {
+        if (text[text.length - 1] !== '?') {
             text = text + '?';
         }
         return text;
