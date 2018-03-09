@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 $(function () {    
-=======
-$(function () {
-    var GLOBAL_process;
-    var GLOBAL_errorShown = false;;
->>>>>>> fd532b431815d8031f174288cf3adb6e0f24dee8
     var param = getParam();
     if (param.p) {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
@@ -13,7 +7,6 @@ $(function () {
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 document.title = GLOBAL_process.meta.title + ' - GOV.UK';
                 $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
-                console.log(drawStanza('start'));
                 $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
                 console.warn('unable to get json');
@@ -26,8 +19,40 @@ $(function () {
     }
 });
 
-<<<<<<< HEAD
-var GLOBAL_process;
+var GLOBAL_process, GLOBAL_errorShown = false;
+
+function convertEpoch(date) {
+    var d = new Date(date);
+    return d.getDate() + ' ' + getWordedMonth(d.getMonth()) + ' ' + d.getFullYear();
+}
+
+function getWordedMonth(m) {
+    var arrMonths = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+    return arrMonths[m];
+}
+
+function titleError(bln){
+    if (bln) {
+        document.title = 'Error: ' + document.title;
+        GLOBAL_errorShown = true;
+    } else {
+        document.title.replace('Error: ', '');
+        GLOBAL_errorShown = false;
+    }
+}
 
 function drawQuestionStanza(stanza) {
     var html = '';
@@ -39,59 +64,6 @@ function drawQuestionStanza(stanza) {
     html += '</legend>';
     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
-=======
-    function convertEpoch(date) {
-        var d = new Date(date);
-        return d.getDate() + ' ' + getWordedMonth(d.getMonth()) + ' ' + d.getFullYear();
-    }
-
-    function getWordedMonth(m) {
-        var arrMonths = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-        ];
-        return arrMonths[m];
-    }
-
-    function titleError(bln) {
-        if (bln) {
-            document.title = 'Error: ' + document.title;
-            GLOBAL_errorShown = true;
-        } else {
-            document.title.replace('Error: ', '');
-            GLOBAL_errorShown = false;
-        }
-    }
-
-    function drawQuestionStanza(stanza) {
-        var html = '';
-        html += '<form>';
-        html += '<div class="form-group">';
-        html += '<fieldset>';
-        html += '<legend>';
-        html += '<h1 class="heading-large" id="questionText">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</h1>';
-        //html += '<span class="form-label-bold">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</span>';
-        html += '<span style="display: none;" class="error-message">Please select an option</span>';
-        html += '</legend>';
-        for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
-            html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i], i);
-        }
-        html += '</fieldset>';
-        html += '</div>';
-        html += '</form>';
-        html += '<input class="button" type="submit" value="Continue">';
-        return html;
->>>>>>> fd532b431815d8031f174288cf3adb6e0f24dee8
     }
     html += '</fieldset>';
     html += '</div>';
@@ -121,7 +93,6 @@ function drawNoteStanza(stanza) {
     return html;
 }
 
-<<<<<<< HEAD
 function drawImportantStanza(stanza) {
     var html = '';
     html += '<div class="notice">';
@@ -134,16 +105,6 @@ function drawImportantStanza(stanza) {
     html += '</div>';
     return html;
 }
-=======
-    function drawMultipleChoice(text, value, index) {
-        var html = '';
-        html += '<div class="multiple-choice">';
-        html += '<input type="radio" id="radio_' + index + '" name="radio-group" value="' + value + '">';
-        html += '<label for="radio_' + index + '">' + lowerCaseStart(text) + '</label>';
-        html += '</div>';
-        return html;
-    }
->>>>>>> fd532b431815d8031f174288cf3adb6e0f24dee8
 
 function drawMultipleChoice(text, value) {
     var html = '';
@@ -154,7 +115,6 @@ function drawMultipleChoice(text, value) {
     return html;
 }
 
-<<<<<<< HEAD
 function drawEndStanza(){
     return '<p>End of this process</p>';
 }
@@ -175,44 +135,6 @@ function drawStanza(stanza) {
             html += drawImportantStanza(stanza);
             break;
         case 'EndStanza':
-=======
-    function drawStanza(stanza) {
-        var html = '';
-        switch (GLOBAL_process.flow[stanza].type) {
-            case 'InstructionStanza':
-                html += drawInstructionStanza(stanza);
-                break;
-            case 'QuestionStanza':
-                html += drawQuestionStanza(stanza);
-                break;
-            case 'NoteStanza':
-                html += drawNoteStanza(stanza);
-                break;
-            case 'ImportantStanza':
-                html += drawImportantStanza(stanza);
-                break;
-            default:
-                console.warn('unknown stanza type: ' + GLOBAL_process.flow[stanza].type);
-                break;
-        }
-        if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza') {
-            html += checkNext(stanza);
-        }
-        return html;
-    }
-
-    function lowerCaseStart(text) {
-        if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
-            return text.substring(0, 2).toLowerCase() + text.substring(2);
-        }
-    }
-
-    function checkNext(stanza) {
-        var html = '';
-        if (GLOBAL_process.flow[stanza].next[0] !== 'end') {
-            html += drawStanza(GLOBAL_process.flow[stanza].next);
-        } else {
->>>>>>> fd532b431815d8031f174288cf3adb6e0f24dee8
             html += drawEndStanza();
             break;
         default:
@@ -229,66 +151,50 @@ function lowerCaseStart(text){
     if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no'){
         return text.substring(0, 2).toLowerCase() + text.substring(2);
     }
-<<<<<<< HEAD
 }
 
 function addQuestionMark(text) {
     return (text[text.length - 1] !== '?') ? text + '?' : text;
 }
-$('#content').on('click', '.button', function () {
+
+$('#stanzas').on('click', '.button', function () {
     var nextStanza = $('[name="radio-group"]:checked').val();
     if (nextStanza === undefined) {
-        alert('Please select an option');
+        questionStanzaError();
     } else {
+        $('#stanzas').html(drawStanza(nextStanza));
         $('.rightbar, .reset').show();
-        $('#content').html(drawStanza(nextStanza));
+        titleError(false);
     }
 });
-=======
-    $('#stanzas').on('click', '.button', function () {
-        var nextStanza = $('[name="radio-group"]:checked').val();
-        if (nextStanza === undefined) {
-            //alert('Please select an option');
-            questionStanzaError();
-        } else {
-            $('#stanzas').html(drawStanza(nextStanza));
-            $('.rightbar, .reset').show();
-            titleError(false);
-        }
-    });
 
-    function questionStanzaError() {
-        if (!GLOBAL_errorShown) {
-            var html = '';
-            html += '<div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">';
-            html += '<h2 class="heading-medium error-summary-heading" id="error-summary-heading">';
-            html += 'There\'s a problem';
-            html += '</h2>';
-            html += '<p>';
-            html += 'Please answer the question:';
-            html += '</p>';
-            html += '<ul class="error-summary-list">';
-            html += '<li><a href="#radio_0">' + $('#questionText').text() + '</a></li>';
-            html += '</ul>';
-            html += '</div>';
-            $('#stanzas').prepend(html);
-            $('.error-summary').focus();
-            titleError(true);
-            var objCSS = {
-                'margin-top': '0',
-                'margin-bottom': '0'
-            };
-            $('.heading-large').css(objCSS);
-            $('.form-group').addClass('form-group-error');
-            $('.error-message').show();
+function questionStanzaError() {
+    if (!GLOBAL_errorShown) {
+        var html = '';
+        html += '<div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">';
+        html += '<h2 class="heading-medium error-summary-heading" id="error-summary-heading">';
+        html += 'There\'s a problem';
+        html += '</h2>';
+        html += '<p>';
+        html += 'Please answer the question:';
+        html += '</p>';
+        html += '<ul class="error-summary-list">';
+        html += '<li><a href="#radio_0">' + $('#questionText').text() + '</a></li>';
+        html += '</ul>';
+        html += '</div>';
+        $('#stanzas').prepend(html);
+        $('.error-summary').focus();
+        titleError(true);
+        var objCSS = {
+            'margin-top': '0',
+            'margin-bottom': '0'
+        };
+        $('.heading-large').css(objCSS);
+        $('.form-group').addClass('form-group-error');
+        $('.error-message').show();
 
-        }
     }
-
-    function getParam(raw) {
-        raw = raw || window.location.search;
-        var parts, tmp, key, value, i, param = {};
->>>>>>> fd532b431815d8031f174288cf3adb6e0f24dee8
+}
 
 function getParam(raw) {
     raw = raw || window.location.search;
