@@ -7,7 +7,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Ocelot External Viewer</title>
+  <title>Welcome to GOV.UK</title>
 
   <!--[if gt IE 8]><!-->
   <link rel="stylesheet" media="screen" href="/static/govuk-template.css" crossorigin="anonymous">
@@ -131,9 +131,16 @@
         </li>
       </ol>
     </div>-->
-
+    <div class="phase-banner">
+      <p>
+        <strong class="phase-tag">ALPHA</strong>
+        <span>This is a new service – your
+          <a href="#">feedback</a> will help us to improve it.</span>
+      </p>
+    </div>
     <div class="grid-row">
       <main id="content" role="main" class="">
+        <div id="stanzas"></div>
         <!--<header class="page-header">
           <div class="pub-c-title
   
@@ -224,12 +231,74 @@
             <p class="modified-date">Last updated: 7 March 2018</p>
           </div>
         </div>-->
+        <p>Dev note - threw this in here to see how it looks. It remains static while the stanzas above change. It's hardcoded for now. Thinking it might be better to make it full width. Also, should we have the right bar showing all the time? Otherwise it's a big empty space. Can hide the back to start option on screen 1 still</p>
+        <dl class="govuk-check-your-answers cya-questions-short" style="margin-top: 50px; margin-bottom: 30px;">
+          <div>
+            <dt class="cya-question">
+              Ask the customer if they have a tea bag?
+            </dt>
+            <dd class="cya-answer">
+              yes they do have a tea bag
+            </dd>
+            <dd class="cya-change">
+              <a href="#">
+                Change
+                <span class="visually-hidden"> name</span>
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="cya-question">
+              Ask the customer if they have a cup?
+            </dt>
+            <dd class="cya-answer">
+              yes - they do have a cup
+            </dd>
+            <dd class="cya-change">
+              <a href="#">
+                Change
+                <span class="visually-hidden"> date of birth</span>
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="cya-question">
+              Ask the customer if they have water to fill the kettle?
+            </dt>
+            <dd class="cya-answer">
+              yes - they have water to fill the kettle
+            </dd>
+            <dd class="cya-change">
+              <a href="#">
+                Change
+                <span class="visually-hidden"> home address</span>
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="cya-question">
+              Ask the customer if the water has boiled?
+            </dt>
+            <dd class="cya-answer">
+              yes - the water has boiled
+            </dd>
+            <dd class="cya-change">
+              <a href="#">
+                Change
+                <span class="visually-hidden"> contact details</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
         <div class="meta-data group">
-          <p class="modified-date">Last updated: 7 March 2018</p>
+          <p class="modified-date"></p>
         </div>
       </main>
 
-      <div class="rightbar related-container" style="display: none">
+      <div class="rightbar related-container" style="display: none; margin-top: 15px;">
         <aside class="govuk-related-items" data-module="track-click" role="complementary">
           <h2 class="reset" style="display: none" data-track-count="sidebarOptionsSection">
             Options
@@ -237,8 +306,8 @@
           <nav role="navigation">
             <ul>
               <li>
-                <a class="reset" style="display: none" data-track-category="relatedLinkClicked" data-track-action="1.1" data-track-label="/index" data-track-options='{"dimension28":"3","dimension29":"Index"}'
-                  href="javascript:window.location.reload()">Back to start</a>
+                <a class="reset" style="display: none" data-track-category="relatedLinkClicked" data-track-action="1.1" data-track-label="/index"
+                  data-track-options='{"dimension28":"3","dimension29":"Index"}' href="javascript:window.location.reload()">Back to start</a>
               </li>
             </ul>
           </nav>
@@ -248,7 +317,7 @@
           <nav style="display: none" role="navigation">
             <ul>
               <li>
-                
+
               </li>
             </ul>
           </nav>
@@ -450,22 +519,22 @@
           <h2 class="visuallyhidden">Support links</h2>
           <!--<ul>
             <li>
-              <a href="/help">Help</a>
+              <a href="/ocelot">Ocelot</a>
             </li>
             <li>
-              <a href="/help/cookies">Cookies</a>
+              <a href="/">Guidance Hub</a>
             </li>
             <li>
-              <a href="/contact">Contact</a>
+              <a href="mailto:DL-CDIO Guidance Development">Contact</a>
             </li>
-            <li>
+            <!--<li>
               <a href="/help/terms-conditions">Terms and conditions</a>
             </li>
             <li>
               <a href="/cymraeg" lang="cy" hreflang="cy">Rhestr o Wasanaethau Cymraeg</a>
             </li>
-            <li>Built by the
-              <a href="https://www.gov.uk/government/organisations/government-digital-service">Government Digital Service</a>
+            <li>Built by 
+              <a href="mailto:DL-CDIO Guidance Development">CDIO Guidance Development Team</a>
             </li>
           </ul>-->
 
