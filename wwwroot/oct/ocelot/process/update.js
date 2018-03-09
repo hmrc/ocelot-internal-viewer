@@ -6,13 +6,13 @@
       "author": "0000000"
     },
     {
-      "message": "New process2",
+      "message": "Guidance updated to incorporate blah blah and blah",
       "minor": false,
       "date": 1493975375599,
       "author": "0000000"
     },
     {
-      "message": "New process3",
+      "message": "More information about blah",
       "minor": false,
       "date": 1493975375599,
       "author": "0000000"
