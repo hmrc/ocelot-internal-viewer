@@ -89,7 +89,6 @@ function drawQuestionStanza(stanza) {
 }
 
 function drawInstructionStanza(stanza) {
-<<<<<<< HEAD
     var html = '', current;
     if(GLOBAL_process.flow[stanza].stack)
     {
@@ -215,13 +214,7 @@ function drawInstructionStanza(stanza) {
     }
     else
     {
-=======
-    var html = '';
-    if (GLOBAL_process.flow[stanza].stack) {
-        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
-    } else {
->>>>>>> 3dadf3f195575a42ed97f2597164d6d8721886d2
-        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
+        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0] + '</p>';
         current = stanza;
     }
     return {html: html, stanza: current};
