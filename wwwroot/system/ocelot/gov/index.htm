@@ -140,6 +140,7 @@
     </div>
     <div class="grid-row">
       <main id="content" role="main" class="">
+
         <div id="stanzas"></div>
         <!--<header class="page-header">
           <div class="pub-c-title
@@ -231,7 +232,7 @@
             <p class="modified-date">Last updated: 7 March 2018</p>
           </div>
         </div>-->
-        <p>Dev note - threw this in here to see how it looks. It remains static while the stanzas above change. It's hardcoded for now. Thinking it might be better to make it full width. Also, should we have the right bar showing all the time? Otherwise it's a big empty space. Can hide the back to start option on screen 1 still</p>
+        <!--<p>Dev note - threw this in here to see how it looks. It remains static while the stanzas above change. It's hardcoded for now. Thinking it might be better to make it full width. Also, should we have the right bar showing all the time? Otherwise it's a big empty space. Can hide the back to start option on screen 1 still</p>
         <dl class="govuk-check-your-answers cya-questions-short" style="margin-top: 50px; margin-bottom: 30px;">
           <div>
             <dt class="cya-question">
@@ -292,32 +293,45 @@
               </a>
             </dd>
           </div>
-        </dl>
+        </dl>-->
+        <details style="margin-top: 40px;">
+          <summary>
+            <span class="summary">Help with nationality</span>
+          </summary>
+          <div class="panel panel-border-narrow" id="updatesList">
+            <p>There are no update messages</p>
+          </div>
+        </details>
         <div class="meta-data group">
           <p class="modified-date"></p>
         </div>
       </main>
 
-      <div class="rightbar related-container" style="display: none; margin-top: 15px;">
+      <div class="rightbar related-container" style="margin-top: 15px;">
         <aside class="govuk-related-items" data-module="track-click" role="complementary">
-          <h2 class="reset" style="display: none" data-track-count="sidebarOptionsSection">
+          <h2 class="reset" data-track-count="sidebarOptionsSection">
+            Navigation
+          </h2>
+          <nav role="navigation">
+            <ul>
+              <li>
+                <a data-track-category="relatedLinkClicked" data-track-action="1.1" data-track-label="/index" data-track-options='{"dimension28":"3","dimension29":"Index"}'
+                  href="#" id="linkGateway">Gateway</a>
+              </li>
+              <li>
+                <a data-track-category="relatedLinkClicked" data-track-action="1.1" data-track-label="/index" data-track-options='{"dimension28":"3","dimension29":"Index"}'
+                  href="#" id="linkNav">Navigation menu</a>
+              </li>
+            </ul>
+          </nav>
+          <h2 class="reset" style="display: none;" data-track-count="sidebarRelatedItemSection">
             Options
           </h2>
           <nav role="navigation">
             <ul>
               <li>
                 <a class="reset" style="display: none" data-track-category="relatedLinkClicked" data-track-action="1.1" data-track-label="/index"
-                  data-track-options='{"dimension28":"3","dimension29":"Index"}' href="javascript:window.location.reload()">Back to start</a>
-              </li>
-            </ul>
-          </nav>
-          <h2 style="display: none" data-track-count="sidebarRelatedItemSection">
-            Related content
-          </h2>
-          <nav style="display: none" role="navigation">
-            <ul>
-              <li>
-
+                  data-track-options='{"dimension28":"3","dimension29":"Index"}' href="javascript:window.location.reload()">Reset answers and restart</a>
               </li>
             </ul>
           </nav>

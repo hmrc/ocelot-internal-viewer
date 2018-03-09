@@ -6,10 +6,26 @@ $(function () {
                 GLOBAL_process = process;
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 document.title = GLOBAL_process.meta.title + ' - GOV.UK';
-                $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
+                $('.summary').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
+                $.getJSON('/oct/ocelot/process/update.js', function (updates) {
+                    if (updates[param.p] !== undefined) {
+                        var html = $('<ul class="list list-bullet">');
+                        $(updates[param.p]).each(function () {
+                            if (!this.minor) {
+                                $(html).append('<li>' + convertEpoch(this.date) + ' - ' + this.message + '</li>');
+                            }
+                        });
+                        console.log($(html));
+                        if ($(html).children().length) {
+                            $('#updatesList').html(html);
+                        }
+                    }
+                }).fail(function () {
+                    console.warn('unable to get updates json')
+                });
                 $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
-                console.warn('unable to get json');
+                console.warn('unable to get process json');
             });
         } else {
             console.warn('invalid GLOBAL_process id');
@@ -60,7 +76,7 @@ function drawQuestionStanza(stanza) {
     html += '<div class="form-group">';
     html += '<fieldset>';
     html += '<legend>';
-    html += '<h1 class="heading-large">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+    html += '<h1 class="heading-large">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</h1>';
     html += '</legend>';
     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
@@ -160,7 +176,7 @@ $('#stanzas').on('click', '.button', function () {
         questionStanzaError();
     } else {
         $('#stanzas').html(drawStanza(nextStanza));
-        $('.rightbar, .reset').show();
+        $('.reset').show();
         titleError(false);
     }
 });
