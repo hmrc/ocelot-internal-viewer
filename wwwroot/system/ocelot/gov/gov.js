@@ -179,7 +179,7 @@ function drawInstructionStanza(stanza) {
         }
 
 
-        html += '<ol class="list list-number">';
+        html += '<ol style="margin-top: 45px;" class="list list-number">';
         for (var k = 0; k < stackedStanzas.length; k++) {
             if (stackedStanzas[k].bullet === 'single') {
                 html += '<li>' + stackedStanzas[k].text + '</li>';
@@ -194,7 +194,7 @@ function drawInstructionStanza(stanza) {
         }
         html += '</ol>';
     } else {
-        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0] + '</p>';
+        html += '<p style="margin-top: 45px;">' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0] + '</p>';
         current = stanza;
     }
     return {
@@ -234,7 +234,8 @@ function drawMultipleChoice(text, value, index) {
 }
 
 function drawEndStanza() {
-    return '<p>End of this process</p>';
+    //return '<p>End of this process</p>';
+    return '<h4 class="heading-small">End of this process</h4>';
 }
 
 function drawStanza(stanza) {
