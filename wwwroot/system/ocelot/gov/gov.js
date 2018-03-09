@@ -1,4 +1,4 @@
-$(function () {    
+$(function () {
     var param = getParam();
     if (param.p) {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
@@ -6,10 +6,26 @@ $(function () {
                 GLOBAL_process = process;
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 document.title = GLOBAL_process.meta.title + ' - GOV.UK';
-                $('.modified-date').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
+                $('.summary').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
+                $.getJSON('/oct/ocelot/process/update.js', function (updates) {
+                    if (updates[param.p] !== undefined) {
+                        var html = $('<ul class="list list-bullet">');
+                        $(updates[param.p]).each(function () {
+                            if (!this.minor) {
+                                $(html).append('<li>' + convertEpoch(this.date) + ' - ' + this.message + '</li>');
+                            }
+                        });
+                        console.log($(html));
+                        if ($(html).children().length) {
+                            $('#updatesList').html(html);
+                        }
+                    }
+                }).fail(function () {
+                    console.warn('unable to get updates json')
+                });
                 $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
-                console.warn('unable to get json');
+                console.warn('unable to get process json');
             });
         } else {
             console.warn('invalid GLOBAL_process id');
@@ -44,7 +60,7 @@ function getWordedMonth(m) {
     return arrMonths[m];
 }
 
-function titleError(bln){
+function titleError(bln) {
     if (bln) {
         document.title = 'Error: ' + document.title;
         GLOBAL_errorShown = true;
@@ -60,7 +76,7 @@ function drawQuestionStanza(stanza) {
     html += '<div class="form-group">';
     html += '<fieldset>';
     html += '<legend>';
-    html += '<h1 class="heading-medium">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1]) + '</h1>';
+    html += '<h1 class="heading-large">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</h1>';
     html += '</legend>';
     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i]);
@@ -73,6 +89,7 @@ function drawQuestionStanza(stanza) {
 }
 
 function drawInstructionStanza(stanza) {
+<<<<<<< HEAD
     var html = '', current;
     if(GLOBAL_process.flow[stanza].stack)
     {
@@ -198,6 +215,12 @@ function drawInstructionStanza(stanza) {
     }
     else
     {
+=======
+    var html = '';
+    if (GLOBAL_process.flow[stanza].stack) {
+        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
+    } else {
+>>>>>>> 3dadf3f195575a42ed97f2597164d6d8721886d2
         html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
         current = stanza;
     }
@@ -234,12 +257,12 @@ function drawMultipleChoice(text, value) {
     return html;
 }
 
-function drawEndStanza(){
+function drawEndStanza() {
     return '<p>End of this process</p>';
 }
 
 function drawStanza(stanza) {
-    var html = '';    
+    var html = '';
     switch (GLOBAL_process.flow[stanza].type) {
         case 'InstructionStanza':
             var instructions = drawInstructionStanza(stanza);
@@ -264,12 +287,12 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-    
+
     return html;
 }
 
-function lowerCaseStart(text){
-    if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no'){
+function lowerCaseStart(text) {
+    if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
         return text.substring(0, 2).toLowerCase() + text.substring(2);
     }
 }
@@ -284,7 +307,7 @@ $('#stanzas').on('click', '.button', function () {
         questionStanzaError();
     } else {
         $('#stanzas').html(drawStanza(nextStanza));
-        $('.rightbar, .reset').show();
+        $('.reset').show();
         titleError(false);
     }
 });
