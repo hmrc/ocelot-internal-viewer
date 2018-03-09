@@ -1,4 +1,4 @@
-$(function () {    
+$(function () {
     var param = getParam();
     if (param.p) {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
@@ -44,7 +44,7 @@ function getWordedMonth(m) {
     return arrMonths[m];
 }
 
-function titleError(bln){
+function titleError(bln) {
     if (bln) {
         document.title = 'Error: ' + document.title;
         GLOBAL_errorShown = true;
@@ -74,12 +74,9 @@ function drawQuestionStanza(stanza) {
 
 function drawInstructionStanza(stanza) {
     var html = '';
-    if(GLOBAL_process.flow[stanza].stack)
-    {
+    if (GLOBAL_process.flow[stanza].stack) {
         html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
-    }
-    else
-    {
+    } else {
         html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
     }
     return html;
@@ -115,12 +112,12 @@ function drawMultipleChoice(text, value) {
     return html;
 }
 
-function drawEndStanza(){
+function drawEndStanza() {
     return '<p>End of this process</p>';
 }
 
 function drawStanza(stanza) {
-    var html = '';    
+    var html = '';
     switch (GLOBAL_process.flow[stanza].type) {
         case 'InstructionStanza':
             html += drawInstructionStanza(stanza);
@@ -143,12 +140,12 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-    
+
     return html;
 }
 
-function lowerCaseStart(text){
-    if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no'){
+function lowerCaseStart(text) {
+    if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
         return text.substring(0, 2).toLowerCase() + text.substring(2);
     }
 }
