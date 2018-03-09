@@ -73,16 +73,135 @@ function drawQuestionStanza(stanza) {
 }
 
 function drawInstructionStanza(stanza) {
-    var html = '';
+    var html = '', current;
     if(GLOBAL_process.flow[stanza].stack)
     {
-        html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
+        var stackedStanzas = [];
+        while(GLOBAL_process.flow[stanza].type === 'InstructionStanza' && GLOBAL_process.flow[stanza].stack)
+        {
+            stackedStanzas.push(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0].split(' '));
+            current = stanza;
+            stanza = GLOBAL_process.flow[stanza].next;
+        }
+
+        var multi = false, i = 0, j = i + 1;
+        while(i < stackedStanzas.length)
+        {
+            var match = true;
+            while(match)
+            {
+                if(j < stackedStanzas.length && stackedStanzas[i][0] === stackedStanzas[j][0])
+                {
+                    stackedStanzas[j] = {bullet: 'multi', text: stackedStanzas[j]};
+                    j++;
+                    multi = true;
+                }
+                else
+                {
+                    if(multi)
+                    {
+                        stackedStanzas[i] = {bullet: 'multi', text: stackedStanzas[i]};
+                        multi = false;
+                        i = j;
+                    }
+                    else
+                    {
+                        stackedStanzas[i] = {bullet: 'single', text: stackedStanzas[i]};
+                        i++;                        
+                    }
+                    j = i + 1;
+                    match = false;
+                }
+            }
+        }
+
+        multi = false;
+        for(var k = 0; k < stackedStanzas.length; k++)
+        {
+            if(!multi && stackedStanzas[k].bullet === 'multi')
+            {
+                stackedStanzas[k].bullet = 'multi-start';
+                var phrase = '', index = 0, match = true;
+                while(match && index < stackedStanzas[k].text.length && index < stackedStanzas[k + 1].text.length)
+                {
+                    if(stackedStanzas[k].text[index] === stackedStanzas[k + 1].text[index])
+                    {
+                        phrase += stackedStanzas[k].text[index] + ' ';
+                        index++;
+                    }
+                    else
+                    {
+                        match = false;
+                    }
+                }
+
+                stackedStanzas[k].phrase = phrase;
+                stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
+                stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
+                multi = true;
+            }
+            else if(multi)
+            {
+                stackedStanzas[k].phrase = stackedStanzas[k - 1].phrase;
+                if(k !== stackedStanzas.length - 1 && stackedStanzas[k + 1].bullet === 'multi')
+                {
+                    var compare = stackedStanzas[k + 1].text.join(' ');
+                    if(~compare.indexOf(stackedStanzas[k].phrase))
+                    {
+                        stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
+                        stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
+                    }
+                    else
+                    {
+                        stackedStanzas[k].bullet = 'multi-end';
+                        stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
+                        stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
+                        multi = false;
+                    }
+                }
+                else
+                {
+                    stackedStanzas[k].bullet = 'multi-end';
+                    stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
+                    stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
+                    multi = false;
+                }
+            }
+            else
+            {
+                stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
+            }
+        }
+
+
+        html += '<ol class="list list-number">';
+        for(var k = 0; k < stackedStanzas.length; k++)
+        {
+            if(stackedStanzas[k].bullet === 'single')
+            {
+                html += '<li>' + stackedStanzas[k].text + '</li>';
+            }
+            else if(stackedStanzas[k].bullet === 'multi-start')
+            {
+                html += '<li>' + stackedStanzas[k].phrase + '<ul class="list list-bullet"><li>' + stackedStanzas[k].text + '</li>';
+            }
+            else if(stackedStanzas[k].bullet === 'multi')
+            {
+                html += '<li>' + stackedStanzas[k].text + '</li>';
+            }
+            else //multi-end
+            {
+                html += '<li>' + stackedStanzas[k].text + '</li></ul></li>';
+            }
+        }
+        html += '</ol>';
     }
     else
     {
         html += '<p>' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][1] + '</p>';
+        current = stanza;
     }
-    return html;
+    return {html: html, stanza: current};
 }
 
 function drawNoteStanza(stanza) {
@@ -123,7 +242,9 @@ function drawStanza(stanza) {
     var html = '';    
     switch (GLOBAL_process.flow[stanza].type) {
         case 'InstructionStanza':
-            html += drawInstructionStanza(stanza);
+            var instructions = drawInstructionStanza(stanza);
+            html += instructions.html;
+            stanza = instructions.stanza;
             break;
         case 'QuestionStanza':
             html += drawQuestionStanza(stanza);
@@ -192,7 +313,6 @@ function questionStanzaError() {
         $('.heading-large').css(objCSS);
         $('.form-group').addClass('form-group-error');
         $('.error-message').show();
-
     }
 }
 
@@ -222,6 +342,5 @@ function getParam(raw) {
             param[key] = value;
         }
     }
-
     return param;
 }
