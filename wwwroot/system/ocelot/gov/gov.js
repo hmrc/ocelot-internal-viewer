@@ -36,6 +36,8 @@ $(function () {
 });
 
 var GLOBAL_process, GLOBAL_errorShown = false;
+var GLOBAL_history = {};
+var GLOBAL_currentStanza;
 
 function convertEpoch(date) {
     var d = new Date(date);
@@ -264,7 +266,7 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-
+        GLOBAL_currentStanza = stanza;
     return html;
 }
 
@@ -283,9 +285,14 @@ $('#stanzas').on('click', '.button', function () {
     if (nextStanza === undefined) {
         questionStanzaError();
     } else {
+        var objHistory = {
+            'choice': nextStanza
+        };
+        GLOBAL_history[GLOBAL_currentStanza] = objHistory;        
         $('#stanzas').html(drawStanza(nextStanza));
         $('.reset').show();
         titleError(false);
+        console.log(GLOBAL_history);
     }
 });
 
