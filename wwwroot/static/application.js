@@ -662,7 +662,7 @@ function govspeakBarcharts() {
     }(),
     function (t) {
         "use strict";
-        GOVUK.StaticAnalytics.load();
+        /*GOVUK.StaticAnalytics.load();
         var e = "www.gov.uk" == document.domain ? ".www.gov.uk" : document.domain,
             i = "UA-26179049-1",
             n = new GOVUK.StaticAnalytics({
@@ -674,7 +674,7 @@ function govspeakBarcharts() {
         if (GOVUK.analytics = n, t.ga) {
             var a = t.ga;
             a("require", "linker"), a("linker:autoLink", ["planforbritain.gov.uk"])
-        }
+        }*/
     }(window),
     function () {
         "use strict";
