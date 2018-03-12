@@ -274,6 +274,7 @@ function drawStanza(stanza) {
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
     drawHistoryTable();
+
     return html;
 }
 
@@ -299,6 +300,11 @@ function drawHistoryTable() {
     });
     html += '</dl>';
     $('#history').html(html);
+    $('dl').each(function (elem, index) {
+        var arr = $.makeArray($('div', this).detach());
+        arr.reverse();
+        $(this).append(arr);
+    });
 }
 
 $('#history').on('click', '.changeStanza', function () {
