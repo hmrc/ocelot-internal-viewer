@@ -4,6 +4,7 @@ $(function () {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
             $.getJSON('/oct/ocelot/process/' + param.p + '.js', function (process) {
                 GLOBAL_process = process;
+                console.log(GLOBAL_process);
                 $('#proposition-name').text(GLOBAL_process.meta.title);
                 document.title = GLOBAL_process.meta.title + ' - GOV.UK';
                 $('.summary').text('Last updated: ' + convertEpoch(GLOBAL_process.meta.lastUpdate));
@@ -15,7 +16,6 @@ $(function () {
                                 $(html).append('<li>' + convertEpoch(this.date) + ' - ' + this.message + '</li>');
                             }
                         });
-                        console.log($(html));
                         if ($(html).children().length) {
                             $('#updatesList').html(html);
                         }
@@ -79,7 +79,7 @@ function drawQuestionStanza(stanza) {
     html += '<fieldset>';
     html += '<legend>';
     html += '<h1 class="heading-large" id="questionText">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</h1>';
-    html += '<span style="display: none;" class="error-message">Please select an option</span>';    
+    html += '<span style="display: none;" class="error-message">Please select an option</span>';
     html += '</legend>';
     for (var i = 0; i < GLOBAL_process.flow[stanza].answers.length; i++) {
         html += drawMultipleChoice(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[i]], GLOBAL_process.flow[stanza].next[i], i);
@@ -266,7 +266,8 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-        GLOBAL_currentStanza = stanza;
+    GLOBAL_currentStanza = stanza;
+    drawHistoryTable();
     return html;
 }
 
@@ -280,15 +281,29 @@ function addQuestionMark(text) {
     return (text[text.length - 1] !== '?') ? text + '?' : text;
 }
 
+function drawHistoryTable() {
+    var html = '';
+    html += '<dl class="govuk-check-your-answers cya-questions-short">';
+    for (stanza in GLOBAL_history) {
+        html += '<div>';
+        html += '<dt class="cya-question">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]) + '</dt>';
+        html += '<dd class="cya-answer">' + lowerCaseStart(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].answers[GLOBAL_history[stanza].choice]]) + '</dd>';
+        html += '<dd class="cya-change"><a href="#">Change</a></dd>';
+        html += '</div>';
+    }
+    html += '</dl>';
+    $('#history').html(html);
+}
+
 $('#stanzas').on('click', '.button', function () {
     var nextStanza = $('[name="radio-group"]:checked').val();
     if (nextStanza === undefined) {
         questionStanzaError();
     } else {
         var objHistory = {
-            'choice': nextStanza
+            'choice': $('[name="radio-group"]:checked').attr('id').replace('radio_', '')
         };
-        GLOBAL_history[GLOBAL_currentStanza] = objHistory;        
+        GLOBAL_history[GLOBAL_currentStanza] = objHistory;
         $('#stanzas').html(drawStanza(nextStanza));
         $('.reset').show();
         titleError(false);
