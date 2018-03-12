@@ -91,110 +91,48 @@ function drawQuestionStanza(stanza) {
     return html;
 }
 
-function drawInstructionStanza(stanza) {
-    var html = '',
-        current;
-    if (GLOBAL_process.flow[stanza].stack) {
+function drawInstructionStanza(stanza) 
+{
+    var html = '', current;
+    if (GLOBAL_process.flow[GLOBAL_process.flow[stanza].next[0]].type === 'InstructionStanza') 
+    {
         var stackedStanzas = [];
-        while (GLOBAL_process.flow[stanza].type === 'InstructionStanza' && GLOBAL_process.flow[stanza].stack) {
+        while (GLOBAL_process.flow[stanza].type === 'InstructionStanza') {
             stackedStanzas.push(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0].split(' '));
             current = stanza;
-            stanza = GLOBAL_process.flow[stanza].next;
+            stanza = GLOBAL_process.flow[stanza].next[0];
         }
-
-        var multi = false,
-            i = 0,
-            j = i + 1;
-        while (i < stackedStanzas.length) {
-            var match = true;
-            while (match) {
-                if (j < stackedStanzas.length && stackedStanzas[i][0] === stackedStanzas[j][0]) {
-                    stackedStanzas[j] = {
-                        bullet: 'multi',
-                        text: stackedStanzas[j]
-                    };
-                    j++;
-                    multi = true;
-                } else {
-                    if (multi) {
-                        stackedStanzas[i] = {
-                            bullet: 'multi',
-                            text: stackedStanzas[i]
-                        };
-                        multi = false;
-                        i = j;
-                    } else {
-                        stackedStanzas[i] = {
-                            bullet: 'single',
-                            text: stackedStanzas[i]
-                        };
-                        i++;
-                    }
-                    j = i + 1;
-                    match = false;
-                }
-            }
+        stackedStanzas = createStackedBulletTypes(stackedStanzas);
+        stackedStanzas = createStackList(stackedStanzas);
+        
+        var occurrences = 0;
+        for(var i = 0; i < stackedStanzas.length; i++)
+        {
+            occurrences += (stackedStanzas[i].bullet === 'multi-start') ? 1 : 0;
+            occurrences += (stackedStanzas[i].bullet === 'single') ? 1 : 0;
         }
+        var ulList = (occurrences <= 1) && (stackedStanzas[0].bullet === 'multi-start');
 
-        multi = false;
-        for (var k = 0; k < stackedStanzas.length; k++) {
-            if (!multi && stackedStanzas[k].bullet === 'multi') {
-                stackedStanzas[k].bullet = 'multi-start';
-                var phrase = '',
-                    index = 0,
-                    match = true;
-                while (match && index < stackedStanzas[k].text.length && index < stackedStanzas[k + 1].text.length) {
-                    if (stackedStanzas[k].text[index] === stackedStanzas[k + 1].text[index]) {
-                        phrase += stackedStanzas[k].text[index] + ' ';
-                        index++;
-                    } else {
-                        match = false;
-                    }
-                }
-
-                stackedStanzas[k].phrase = phrase;
-                stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
-                stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
-                multi = true;
-            } else if (multi) {
-                stackedStanzas[k].phrase = stackedStanzas[k - 1].phrase;
-                if (k !== stackedStanzas.length - 1 && stackedStanzas[k + 1].bullet === 'multi') {
-                    var compare = stackedStanzas[k + 1].text.join(' ');
-                    if (~compare.indexOf(stackedStanzas[k].phrase)) {
-                        stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
-                        stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
-                    } else {
-                        stackedStanzas[k].bullet = 'multi-end';
-                        stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
-                        stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
-                        multi = false;
-                    }
-                } else {
-                    stackedStanzas[k].bullet = 'multi-end';
-                    stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
-                    stackedStanzas[k].text = stackedStanzas[k].text.replace(stackedStanzas[k].phrase, '').trim();
-                    multi = false;
-                }
-            } else {
-                stackedStanzas[k].text = stackedStanzas[k].text.join(' ');
-            }
-        }
-
-
-        html += '<ol style="margin-top: 45px;" class="list list-number">';
-        for (var k = 0; k < stackedStanzas.length; k++) {
-            if (stackedStanzas[k].bullet === 'single') {
-                html += '<li>' + stackedStanzas[k].text + '</li>';
-            } else if (stackedStanzas[k].bullet === 'multi-start') {
-                html += '<li>' + stackedStanzas[k].phrase + '<ul class="list list-bullet"><li>' + stackedStanzas[k].text + '</li>';
-            } else if (stackedStanzas[k].bullet === 'multi') {
-                html += '<li>' + stackedStanzas[k].text + '</li>';
+        html += (!ulList) ? '<ol style="margin-top: 45px;" class="list list-number">' : '<div style="margin-top: 45px;">' + stackedStanzas[0].phrase.charAt(0).toUpperCase() + stackedStanzas[0].phrase.slice(1) + '</div><ul class="list list-bullet">';
+        for (var i = 0; i < stackedStanzas.length; i++) 
+        {
+            if (stackedStanzas[i].bullet === 'single') 
+            {
+                html += '<li>' + stackedStanzas[i].text + '</li>';
+            } else if (stackedStanzas[i].bullet === 'multi-start') 
+            {
+                html += (!ulList) ? '<li>' + stackedStanzas[i].phrase.charAt(0).toLowerCase() + stackedStanzas[i].phrase.slice(1) + '<ul class="list list-bullet">' : '';
+                html += '<li>' + stackedStanzas[i].text + '</li>';
+            } else if (stackedStanzas[i].bullet === 'multi') 
+            {
+                html += '<li>' + stackedStanzas[i].text + '</li>';
             } else //multi-end
             {
-                html += '<li>' + stackedStanzas[k].text + '</li></ul></li>';
+                html += '<li>' + stackedStanzas[i].text + '</li></ul>';
+                html += (!ulList) ? '</li>' : '';
             }
         }
-        html += '</ol>';
+        html += (!ulList) ? '</ol>' : '</ul>';
     } else {
         html += '<p style="margin-top: 45px;">' + GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0] + '</p>';
         current = stanza;
@@ -203,6 +141,92 @@ function drawInstructionStanza(stanza) {
         html: html,
         stanza: current
     };
+}
+
+function createStackedBulletTypes(stack)
+{
+    var multi = false, i = 0, j = i + 1;
+    while (i < stack.length) 
+    {
+        var match = true;
+        while (match) 
+        {
+            if (j < stack.length && stack[i][0].toLowerCase() === stack[j][0].toLowerCase()) 
+            {
+                stack[j] = {bullet: 'multi', text: stack[j]};
+                j++;
+                multi = true;
+            } 
+            else 
+            {
+                if (multi) 
+                {
+                    stack[i] = {bullet: 'multi', text: stack[i]};
+                    multi = false;
+                    i = j;
+                } 
+                else 
+                {
+                    stack[i] = {bullet: 'single', text: stack[i]};
+                    i++;
+                }
+                j = i + 1;
+                match = false;
+            }
+        }
+    }
+    return stack;
+}
+
+function createStackList(stack)
+{
+    var multi = false;
+    for(var i = 0; i < stack.length; i++)
+    {
+        if(!multi && stack[i].bullet === 'multi')
+        {
+            stack[i].bullet = 'multi-start';
+            var phrase = '', index = 0, match = true;
+            while(match && index < stack[i].text.length && index < stack[i + 1].text.length)
+            {
+                if(stack[i].text[index].toLowerCase() === stack[i + 1].text[index].toLowerCase())
+                {
+                    phrase += stack[i].text[index] + ' ';
+                    index++;
+                }
+                else
+                {
+                    match = false;
+                }
+            }
+            stack[i].phrase = phrase;
+            multi = true;
+        }
+        else if(multi)
+        {
+            var multiEnd = true;
+            stack[i].phrase = stack[i - 1].phrase;
+            if(i !== stack.length - 1 && stack[i + 1].bullet === 'multi')
+            {
+                var compare = stack[i + 1].text.join(' ');
+                if(~compare.indexOf(stack[i].phrase))
+                {
+                    multiEnd = false;
+                }
+            }
+
+            if(multiEnd)
+            {
+                stack[i].bullet = 'multi-end';
+            }
+        }
+        stack[i].text = stack[i].text.join(' ');
+        if(stack[i].phrase !== undefined)
+        {
+            stack[i].text = stack[i].text.replace(stack[i].phrase, '').trim();
+        }
+    }
+    return stack;
 }
 
 function drawNoteStanza(stanza) {
