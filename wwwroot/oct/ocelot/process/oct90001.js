@@ -155,7 +155,7 @@
   },
   "phrases": [
     ["Ask the customer if they have a tea bag", "Do you have a tea bag?"], "Yes - they do have a tea bag", "No - they do not have a tea bag", ["Ask the customer if they have a cup", "Do you have a cup?"], "yes - they do have a cup ", "no - they don’t have a cup", ["Ask the customer if they have water to fill the kettle", "Do you have water to fill your kettle?"], "yes - they have water to fill the kettle", "no - they don’t have water to fill the kettle", ["Tell the customer to turn the kettle on", "Turn your kettle on"],
-    ["tell the customer to wait up to 5 minutes for the water to boil", "Wait up to 5 minutes for the water to boil"], "The water in the kettle may be very hot", ["Ask the customer if the water has boiled", "Has the water boiled"], "yes - the water has boiled ", "no - the water hasn’t boiled", ["Tell the customer to add the tea bag to the cup", "Add the tea bag to the cup"],
+    ["Tell the customer to wait up to 5 minutes for the water to boil", "Wait up to 5 minutes for the water to boil"], "The water in the kettle may be very hot", ["Ask the customer if the water has boiled", "Has the water boiled"], "yes - the water has boiled ", "no - the water hasn’t boiled", ["Tell the customer to add the tea bag to the cup", "Add the tea bag to the cup"],
     ["Tell the customer to pour the water from the kettle into the cup", "Pour the water from the kettle into the cup"],
     ["Tell the customer to wait 2 minutes for the tea to steep into the water", "Wait 2 minutes for the tea to steep into the water"],
     ["Tell the customer to add milk and sugar to taste", "Add milk and sugar to taste"],
@@ -163,11 +163,11 @@
     ["Tell the customer to check the kettle is plugged in", "Check the kettle is plugged in"], "Yes - The kettle was plugged in", "No - The kettle was not plugged in", ["Tell the customer to plug in the kettle", "Plug in the kettle"],
     ["Tell the customer to unplug the kettle", "Unplug the kettle"],
     ["Tell the customer to contact customer support for their kettle", "Contact customer support for your kettle"],
-    ["tell the customer they need to water to fill the kettle to make a cup of tea", "You need to water to fill the kettle to make a cup of tea"],
-    ["tell the customer to call back once they have water to fill the kettle", "Call back once you have water to fill the kettle"],
+    ["Tell the customer they need to water to fill the kettle to make a cup of tea", "You need to water to fill the kettle to make a cup of tea"],
+    ["Tell the customer to call back once they have water to fill the kettle", "Call back once you have water to fill the kettle"],
     ["Tell the customer they will need to find a cup", "You will need to find a cup"],
     ["Tell the customer call us back once they have a cup", "Call us back once you have a cup"],
-    ["tell the customer they need to get a tea bag ", "You need a tea bag."],
-    ["tell the customer to call us back once they have a tea bag", "Call us back once you have a tea bag"]
+    ["Tell the customer they need to get a tea bag ", "You need a tea bag."],
+    ["Tell the customer to call us back once they have a tea bag", "Call us back once you have a tea bag"]
   ]
 }

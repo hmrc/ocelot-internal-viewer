@@ -23,7 +23,7 @@ $(function () {
                 }).fail(function () {
                     console.warn('unable to get updates json')
                 });*/
-                $('#main-content').html(drawStanza('start'));
+                $('#stanzas').html(drawStanza('start'));
             }).fail(function () {
                 console.warn('unable to get process json');
             });
@@ -306,10 +306,19 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-    drawHistoryTable();
-
+        drawHistoryTable();
+    if (stanza !== 'start'){
+        $('#back').show();
+    } else {
+        $('#back').hide();
+    }
     return html;
 }
+
+$('#back').click(function(){
+    $('#stanzas').html(drawStanza($(this).attr('data-draw')));
+    removeFromHistory($(this).attr('data-history-id'));
+});
 
 function lowerCaseStart(text) {
     if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
@@ -329,6 +338,10 @@ function drawHistoryTable() {
         html += '<dt class="cya-question">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[item.stanza].text][0]) + '</dt>';
         html += '<dd class="cya-answer">' + lowerCaseStart(GLOBAL_process.phrases[GLOBAL_process.flow[item.stanza].answers[item.choice]]) + '</dd>';
         html += '<dd class="cya-change"><a class="changeStanza" href="#" data-history-id="' + index + '" data-draw="' + item.stanza + '">Change</a></dd>';
+        console.log(item.stanza);
+        console.log(index);
+        $('#back').attr('data-draw', item.stanza);
+        $('#back').attr('data-history-id', index);
         html += '</div>';
     });
     html += '</dl>';
@@ -341,20 +354,24 @@ function drawHistoryTable() {
 }
 
 $('#history').on('click', '.changeStanza', function () {
-    $('#main-content').html(drawStanza($(this).attr('data-draw')));
+    $('#stanzas').html(drawStanza($(this).attr('data-draw')));
     removeFromHistory($(this).attr('data-history-id'));
 });
 
-$('#main-content').on('click', '.govuk-button', function () {
+$('#stanzas').on('click', '.govuk-button', function () {
     var nextStanza = $('[name="radio-group"]:checked').val();
     if (nextStanza === undefined) {
         questionStanzaError();
     } else {
         //addToHistory();
-        $('#main-content').html(drawStanza(nextStanza));
+        $('#stanzas').html(drawStanza(nextStanza));
         //$('.reset').show();
         titleError(false);
     }
+});
+
+$('#reset').click(function(){
+    location.reload();
 });
 
 function addToHistory() {
@@ -386,7 +403,7 @@ function questionStanzaError() {
         html += '</ul>';
         html += '</div>';
         html += '</div>';
-        $('#main-content').prepend(html);
+        $('#stanzas').prepend(html);
         $('.error-summary').focus();
         titleError(true);
         /*var objCSS = {
