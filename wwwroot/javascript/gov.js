@@ -77,9 +77,13 @@ function drawQuestionStanza(stanza) {
     html += '<fieldset class="govuk-fieldset">';
     html += '<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">';
     html += '<h1 class="govuk-fieldset__heading">';
+
     html += addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[stanza].text][0]);
     html += '</h1>';
     html += '</legend>';
+    html += '<span style="display: none;" class="govuk-error-message">';
+    html += 'Please select an option';
+    html += '</span>';
     html += '<div class="govuk-radios">';
     /*html += '<span id="changed-name-hint" class="govuk-hint">';
     html += 'This includes changing your last name or spelling your name differently.';
@@ -306,8 +310,13 @@ function drawStanza(stanza) {
     }
     if (GLOBAL_process.flow[stanza].type !== 'QuestionStanza' && GLOBAL_process.flow[stanza].type !== 'EndStanza')
         html += drawStanza(GLOBAL_process.flow[stanza].next[0]);
-        drawHistoryTable();
+        
+        //drawHistoryTable();
     if (stanza !== 'start'){
+        console.log(GLOBAL_history);
+        var stanzaToDraw = GLOBAL_history[GLOBAL_history.length - 1].stanza
+        $('#back').attr('data-draw', stanzaToDraw);
+        $('#back').attr('data-history-id', GLOBAL_history.length);
         $('#back').show();
     } else {
         $('#back').hide();
@@ -338,10 +347,6 @@ function drawHistoryTable() {
         html += '<dt class="cya-question">' + addQuestionMark(GLOBAL_process.phrases[GLOBAL_process.flow[item.stanza].text][0]) + '</dt>';
         html += '<dd class="cya-answer">' + lowerCaseStart(GLOBAL_process.phrases[GLOBAL_process.flow[item.stanza].answers[item.choice]]) + '</dd>';
         html += '<dd class="cya-change"><a class="changeStanza" href="#" data-history-id="' + index + '" data-draw="' + item.stanza + '">Change</a></dd>';
-        console.log(item.stanza);
-        console.log(index);
-        $('#back').attr('data-draw', item.stanza);
-        $('#back').attr('data-history-id', index);
         html += '</div>';
     });
     html += '</dl>';
@@ -363,9 +368,8 @@ $('#stanzas').on('click', '.govuk-button', function () {
     if (nextStanza === undefined) {
         questionStanzaError();
     } else {
-        //addToHistory();
+        addToHistory();
         $('#stanzas').html(drawStanza(nextStanza));
-        //$('.reset').show();
         titleError(false);
     }
 });
@@ -387,7 +391,7 @@ function removeFromHistory(sliceUpTo) {
     console.log(sliceUpTo);
     GLOBAL_history = GLOBAL_history.slice(0, sliceUpTo);
     console.log(GLOBAL_history);
-    drawHistoryTable();
+    //drawHistoryTable();
 }
 
 function questionStanzaError() {
@@ -399,7 +403,7 @@ function questionStanzaError() {
         html += '</h2>';
         html += '<div class="govuk-error-summary__body">';
         html += '<ul class="govuk-list govuk-error-summary__list">';
-        html += '<li><a href="#radio_0">' + $('#questionText').text() + '</a></li>';
+        html += '<li><a href="#radio_0">' + $('.govuk-fieldset__heading').text() + '</a></li>';
         html += '</ul>';
         html += '</div>';
         html += '</div>';
@@ -411,8 +415,8 @@ function questionStanzaError() {
             'margin-bottom': '0'
         };
         $('.heading-large').css(objCSS);*/
-        $('.form-group').addClass('form-group-error');
-        $('.error-message').show();
+        $('.govuk-form-group').addClass('govuk-form-group--error');
+        $('.govuk-error-message').show();
     }
 }
 
