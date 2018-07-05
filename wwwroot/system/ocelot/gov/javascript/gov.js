@@ -332,6 +332,8 @@ $('#back').click(function(){
 function lowerCaseStart(text) {
     if (text.substring(0, 2).toLowerCase() === 'ye' || text.substring(0, 2).toLowerCase() === 'no') {
         return text.substring(0, 2).toLowerCase() + text.substring(2);
+    } else {
+        return text;
     }
 }
 
