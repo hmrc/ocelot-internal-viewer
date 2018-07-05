@@ -2,7 +2,7 @@ $(function () {
     var param = getParam();
     if (param.p) {
         if (param.p.match(/^[a-z]{3}[789]\d{4}$/)) {
-            $.getJSON(param.p.substring(0, 3) + '/ocelot/process/' + param.p + '.js', function (process) {
+            $.getJSON('/' + param.p.substring(0, 3) + '/ocelot/process/' + param.p + '.js', function (process) {
                 GLOBAL_process = process;
                 console.log(GLOBAL_process);
                 $('.govuk-header__link.govuk-header__link--service-name').text(GLOBAL_process.meta.title);
